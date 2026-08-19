@@ -13,6 +13,8 @@
 
 ### 从 GitHub 拉取并部署（服务器）
 
+仓库为公开仓库，服务器无需登录即可拉取：
+
 ```bash
 git clone https://github.com/dll315/piano-site.git
 cd piano-site
