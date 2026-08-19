@@ -11,6 +11,21 @@
 
 ## Docker 部署
 
+### 从 GitHub 拉取并部署（服务器）
+
+```bash
+git clone https://github.com/dll315/piano-site.git
+cd piano-site
+docker compose up -d --build
+```
+
+访问 `http://localhost:8084`。后续更新代码：
+
+```bash
+git pull
+docker compose up -d --build
+```
+
 ### 方式一：docker compose
 
 ```bash
