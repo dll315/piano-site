@@ -1,0 +1,2032 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>把回忆拼好给你 · 钢琴</title>
+<style>
+:root {
+  --bg: #16110e;
+  --bg-soft: #1e1712;
+  --panel: #251b15;
+  --panel-2: #302219;
+  --line: #4a3527;
+  --line-soft: #3b2b21;
+  --ink: #211812;
+  --ivory: #fbf6ea;
+  --ivory-2: #ebe0cd;
+  --ivory-3: #d8c9b0;
+  --black-key: #17181d;
+  --gold: #dca964;
+  --gold-soft: #b98a4f;
+  --teal: #64bfb4;
+  --teal-deep: #2f7d76;
+  --rose: #d37568;
+  --text: #f6efe2;
+  --muted: #b7a795;
+  --shadow: 0 26px 60px rgba(0, 0, 0, .45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    repeating-linear-gradient(180deg,
+      rgba(255, 255, 255, .018) 0,
+      rgba(255, 255, 255, .018) 1px,
+      transparent 1px,
+      transparent 4px),
+    var(--bg);
+  color: var(--text);
+  font-family: "Songti SC", "Noto Serif SC", "Microsoft YaHei", serif;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  width: min(1240px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 18px 0 28px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(145deg, #32241a, #221913);
+  color: var(--gold);
+  font-size: 22px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+  flex: none;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: clamp(18px, 2.4vw, 26px);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .12em;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.btn {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-2);
+  color: var(--text);
+  font-weight: 700;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: .02em;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+
+.btn:hover {
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn.primary {
+  background: linear-gradient(145deg, #e3b46f, #b97f3f);
+  border-color: #e9c184;
+  color: #241a10;
+  box-shadow: 0 8px 22px rgba(198, 137, 55, .28);
+}
+
+.btn.primary:hover {
+  box-shadow: 0 10px 26px rgba(198, 137, 55, .38);
+}
+
+.btn.danger {
+  background: #3a2320;
+  border-color: #6e3c32;
+  color: #f2c5b0;
+}
+
+.btn .ico {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.song-select {
+  min-height: 44px;
+  max-width: 210px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23dca964' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") right 12px center / 10px 6px no-repeat,
+    var(--panel-2);
+  color: var(--text);
+  font-weight: 700;
+  padding: 0 34px 0 14px;
+  letter-spacing: .02em;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.song-select:hover {
+  border-color: var(--gold);
+}
+
+.volume {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .035);
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.volume input {
+  width: 96px;
+  accent-color: var(--gold);
+}
+
+.stage {
+  border: 1px solid var(--line-soft);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #241b15, #180f0b);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.desk {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line-soft);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .025), transparent 32%),
+    var(--panel);
+}
+
+.piece {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.piece-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  color: var(--teal);
+  font-size: 20px;
+  flex: none;
+}
+
+.piece h2 {
+  margin: 0;
+  font-size: clamp(17px, 2.2vw, 23px);
+  letter-spacing: .03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.piece p {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .08em;
+}
+
+.progress-wrap {
+  min-width: min(360px, 46vw);
+  display: grid;
+  gap: 7px;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .09);
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--teal-deep), var(--teal), var(--gold));
+  transition: width .12s linear;
+}
+
+.state-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: rgba(100, 191, 180, .12);
+  border: 1px solid rgba(100, 191, 180, .3);
+  color: #a9e0d7;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.state-badge.idle {
+  background: rgba(255, 255, 255, .05);
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.state-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+}
+
+.state-badge.playing .state-dot {
+  animation: pulse 1.4s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(100, 191, 180, .45); }
+  70% { box-shadow: 0 0 0 7px rgba(100, 191, 180, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(100, 191, 180, 0); }
+}
+
+.piano-shell {
+  padding: 22px 22px 18px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .012) 0 1px, transparent 1px 7px),
+    linear-gradient(180deg, #31231a, #251a14 34%, #1c120d);
+}
+
+.piano-ledge {
+  height: 34px;
+  margin: -6px 18px 14px;
+  border-radius: 5px 5px 2px 2px;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .18) 0 26px, transparent 26px 52px),
+    linear-gradient(180deg, #d9a867, #9e7340);
+  box-shadow: 0 11px 18px rgba(0, 0, 0, .3), inset 0 2px 3px rgba(255, 255, 255, .35), inset 0 -6px 10px rgba(0, 0, 0, .18);
+}
+
+.piano-frame {
+  border: 1px solid #0d0906;
+  border-radius: 14px;
+  padding: 14px 14px 17px;
+  background:
+    radial-gradient(160% 120% at 50% 0%, #3a2b21 0%, #1e150f 62%, #150e09 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .09),
+    inset 0 -12px 22px rgba(0, 0, 0, .35),
+    0 14px 24px rgba(0, 0, 0, .35);
+}
+
+.piano-viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #6d4d34 #1b120d;
+}
+
+.piano-viewport::-webkit-scrollbar {
+  height: 9px;
+}
+
+.piano-viewport::-webkit-scrollbar-track {
+  background: #1b120d;
+}
+
+.piano-viewport::-webkit-scrollbar-thumb {
+  background: #6d4d34;
+  border-radius: 8px;
+}
+
+.piano {
+  --slot: calc(100% / 22);
+  --black-w: calc(var(--slot) * 0.64);
+  position: relative;
+  width: 100%;
+  min-width: 800px;
+  height: clamp(268px, 38vw, 470px);
+  max-height: 62vh;
+  border: 1px solid #080604;
+  border-radius: 6px 6px 10px 10px;
+  background: #0e0b08;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+}
+
+.white-keys,
+.black-keys,
+.drop-layer,
+.fx-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.white-keys {
+  display: flex;
+  pointer-events: none;
+}
+
+.black-keys {
+  pointer-events: none;
+}
+
+.white-key {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-right: 1px solid rgba(0, 0, 0, .16);
+  border-radius: 0 0 5px 5px;
+  pointer-events: auto;
+  background:
+    linear-gradient(180deg, #fdfaf2 0%, #f6efdf 74%, #e5d8c2 100%);
+  box-shadow:
+    inset 0 -9px 12px rgba(96, 78, 54, .16),
+    inset 2px 0 0 rgba(255, 255, 255, .7),
+    inset -2px 0 0 rgba(255, 255, 255, .3);
+  cursor: pointer;
+  transition: transform .045s ease, box-shadow .16s ease, background .12s ease;
+}
+
+.white-key:last-child {
+  border-right: 0;
+}
+
+.white-key:hover {
+  background:
+    linear-gradient(180deg, #fffdf7 0%, #fbf4e4 74%, #ebdfca 100%);
+}
+
+.white-key.pressed,
+.white-key.auto-playing {
+  transform: translateY(4px);
+  background:
+    linear-gradient(180deg, #fff3d2 0%, #f5d798 74%, #d9a95e 100%);
+  box-shadow:
+    inset 0 -6px 12px rgba(116, 66, 15, .25),
+    0 0 18px rgba(220, 169, 100, .28);
+}
+
+.key-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9px;
+  text-align: center;
+  color: var(--ink);
+  font-size: clamp(9px, 1.1vw, 12px);
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-family: "Microsoft YaHei", sans-serif;
+  pointer-events: none;
+}
+
+.white-key .key-label b {
+  display: block;
+  font-size: clamp(12px, 1.7vw, 17px);
+  font-weight: 700;
+  color: #33261a;
+}
+
+.white-key .key-label i {
+  display: block;
+  font-style: normal;
+  margin-top: 3px;
+  color: rgba(78, 56, 32, .58);
+  font-size: clamp(8px, .95vw, 11px);
+}
+
+.white-key:nth-child(22) .key-label {
+  opacity: .55;
+}
+
+.black-key {
+  position: absolute;
+  width: var(--black-w);
+  height: 59%;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0 0 5px 5px;
+  background:
+    linear-gradient(180deg, #3a3d48 0%, #181a20 52%, #0d0e12 100%);
+  box-shadow:
+    inset 0 -5px 7px rgba(0, 0, 0, .55),
+    inset 0 2px 0 rgba(255, 255, 255, .09),
+    0 7px 9px rgba(0, 0, 0, .33);
+  cursor: pointer;
+  z-index: 4;
+  pointer-events: auto;
+  transition: transform .045s ease, box-shadow .16s ease, background .12s ease;
+}
+
+.black-key:hover {
+  background:
+    linear-gradient(180deg, #4b4e5b 0%, #202329 52%, #121318 100%);
+}
+
+.black-key.pressed,
+.black-key.auto-playing {
+  transform: translateY(3px);
+  background:
+    linear-gradient(180deg, #6a6f7e 0%, #3a3e48 45%, #1d1f26 100%);
+  box-shadow:
+    inset 0 -4px 8px rgba(0, 0, 0, .45),
+    0 0 16px rgba(220, 169, 100, .34);
+}
+
+.black-key .key-label {
+  bottom: 8px;
+  color: #d8d2c4;
+  font-size: clamp(8px, .9vw, 10px);
+}
+
+.drop-layer {
+  z-index: 6;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.note-drop {
+  position: absolute;
+  top: -8%;
+  height: 56%;
+  min-height: 58px;
+  border-radius: 22px 22px 5px 5px;
+  background:
+    linear-gradient(180deg, rgba(220, 169, 100, .22), rgba(220, 169, 100, .4) 76%, rgba(255, 218, 150, .72));
+  border: 1px solid rgba(255, 202, 125, .72);
+  box-shadow: 0 0 24px rgba(255, 199, 116, .42);
+  animation: note-fall .42s linear forwards;
+}
+
+.note-drop::after {
+  content: "\266A";
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 241, 208, .94);
+  font-size: clamp(17px, 2.6vw, 27px);
+  text-shadow: 0 0 12px rgba(255, 207, 124, .95), 0 2px 5px rgba(0, 0, 0, .45);
+}
+
+@keyframes note-fall {
+  from {
+    transform: translateY(92%);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(193%);
+    opacity: .18;
+  }
+}
+
+.fx-layer {
+  z-index: 8;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.fx-ring {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border: 2px solid rgba(255, 215, 140, .9);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255, 190, 90, .42), inset 0 0 12px rgba(255, 190, 90, .3);
+  animation: ring-pop .58s ease-out forwards;
+}
+
+.fx-ring-big {
+  width: 60px;
+  height: 60px;
+  border-width: 3px;
+  box-shadow: 0 0 28px rgba(255, 190, 90, .62), inset 0 0 16px rgba(255, 190, 90, .42);
+}
+
+.fx-particle {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  line-height: 1;
+  color: #ffe1a0;
+  text-shadow: 0 0 11px rgba(255, 190, 80, .95), 0 2px 5px rgba(0, 0, 0, .45);
+  animation: particle-burst .62s ease-out forwards;
+}
+
+.fx-particle-big {
+  width: 32px;
+  height: 32px;
+  font-size: 25px;
+  text-shadow: 0 0 14px rgba(255, 196, 98, 1), 0 2px 6px rgba(0, 0, 0, .5);
+}
+
+@keyframes ring-pop {
+  from {
+    transform: translate(-50%, -50%) scale(.45);
+    opacity: .95;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(2.15);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(.35) rotate(-18deg);
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) scale(1) rotate(10deg);
+    opacity: 0;
+  }
+}
+
+.piano-shadow {
+  height: 9px;
+  margin: -4px 16px 0;
+  border-radius: 0 0 50% 50%;
+  background: rgba(0, 0, 0, .55);
+  filter: blur(5px);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 0 4px;
+}
+
+.footer .keynote {
+  color: var(--gold);
+  letter-spacing: .08em;
+}
+
+@media (max-width: 760px) {
+  .app {
+    width: min(100% - 18px, 1240px);
+    padding-top: 10px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .song-select {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .volume {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .desk {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .progress-wrap {
+    min-width: 0;
+  }
+
+  .piano-shell {
+    padding: 12px 10px 14px;
+  }
+
+  .piano-ledge {
+    margin: -5px 8px 10px;
+    height: 24px;
+  }
+
+  .piano-frame {
+    padding: 9px 7px 12px;
+  }
+
+  .piano {
+    height: clamp(240px, 68vw, 330px);
+  }
+
+  .key-label {
+    bottom: 7px;
+  }
+}
+
+@media (max-width: 440px) {
+  .brand mark,
+  .controls .btn span:not(.ico) {
+    white-space: nowrap;
+  }
+
+  .btn {
+    padding: 0 12px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">♫</div>
+      <div>
+        <h1 id="brandTitle">把回忆拼好给你</h1>
+        <small id="brandSub">回忆钢琴 · C大调</small>
+      </div>
+    </div>
+
+    <div class="controls">
+      <select id="songSelect" class="song-select" aria-label="选择自动弹奏曲目">
+        <option value="recollect">把回忆拼好给你</option>
+        <option value="jingwei">精卫</option>
+        <option value="qinghuaci">青花瓷</option>
+        <option value="juewu">觉悟</option>
+      </select>
+      <label class="volume">
+        音量
+        <input id="volume" type="range" min="0" max="1" step="0.01" value="0.72" aria-label="音量">
+      </label>
+      <button class="btn primary" id="autoBtn" type="button" aria-pressed="false">
+        <span class="ico">▶</span><span>自动弹奏</span>
+      </button>
+      <button class="btn danger" id="stopBtn" type="button" hidden>
+        <span class="ico">■</span><span>停止</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="stage">
+    <section class="desk">
+      <div class="piece">
+        <div class="piece-icon" aria-hidden="true">♪</div>
+        <div>
+          <h2 id="pieceTitle">把回忆拼好给你</h2>
+          <p id="pieceSub">王贰浪 · 原琴数字谱改编</p>
+          <span class="state-badge idle" id="statusBadge" aria-live="polite">
+            <span class="state-dot"></span>
+            <span id="statusText">待命</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-row">
+          <span id="sectionLabel">前奏</span>
+          <span id="timeLabel">00:00 / 00:58</span>
+        </div>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="piano-shell">
+      <div class="piano-ledge" aria-hidden="true"></div>
+      <div class="piano-frame">
+        <div class="piano-viewport">
+          <div class="piano" id="piano" role="application" aria-label="钢琴键盘">
+            <div class="drop-layer" id="dropLayer"></div>
+            <div class="fx-layer" id="fxLayer"></div>
+            <div class="white-keys" id="whiteKeys"></div>
+            <div class="black-keys" id="blackKeys"></div>
+          </div>
+        </div>
+      </div>
+      <div class="piano-shadow" aria-hidden="true"></div>
+    </section>
+
+    <footer class="footer">
+      <span>手动弹奏</span>
+      <span class="keynote">C · Dm · Em · F · G · Am</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const piano = document.getElementById('piano');
+  const pianoViewport = document.querySelector('.piano-viewport');
+  const whiteKeysEl = document.getElementById('whiteKeys');
+  const blackKeysEl = document.getElementById('blackKeys');
+  const dropLayer = document.getElementById('dropLayer');
+  const fxLayer = document.getElementById('fxLayer');
+  const autoBtn = document.getElementById('autoBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const volumeInput = document.getElementById('volume');
+  const songSelect = document.getElementById('songSelect');
+  const brandTitle = document.getElementById('brandTitle');
+  const brandSub = document.getElementById('brandSub');
+  const pieceTitle = document.getElementById('pieceTitle');
+  const pieceSub = document.getElementById('pieceSub');
+  const progressFill = document.getElementById('progressFill');
+  const timeLabel = document.getElementById('timeLabel');
+  const sectionLabel = document.getElementById('sectionLabel');
+  const statusBadge = document.getElementById('statusBadge');
+  const statusText = document.getElementById('statusText');
+
+  const NOTE_CLASS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const NOTE_OFFSET = { C: 0, 'C#': 1, D: 2, 'D#': 3, E: 4, F: 5, 'F#': 6, G: 7, 'G#': 8, A: 9, 'A#': 10, B: 11 };
+
+  const KEYBOARD = {
+    a: 'C3', w: 'C#3', s: 'D3', e: 'D#3', d: 'E3', f: 'F3',
+    t: 'F#3', g: 'G3', y: 'G#3', h: 'A3', u: 'A#3', j: 'B3',
+    k: 'C4', o: 'C#4', l: 'D4', p: 'D#4', ';': 'E4', "'": 'F4',
+    ']': 'F#4', '\\': 'G4'
+  };
+  const KEY_CACHE = new Map();
+
+  const SHORT_WHITE = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+  const WHITE_SHORTCUT = {
+    C3: 'a', D3: 's', E3: 'd', F3: 'f', G3: 'g', A3: 'h', B3: 'j',
+    C4: 'k', D4: 'l', E4: ';', F4: "'", G4: '\\'
+  };
+  const BLACK_SHORTCUT = {
+    'C#3': 'w', 'D#3': 'e', 'F#3': 't', 'G#3': 'y', 'A#3': 'u',
+    'C#4': 'o', 'D#4': 'p', 'F#4': ']'
+  };
+
+  const WHITE_NOTES = [
+    'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3',
+    'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4',
+    'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5', 'C6'
+  ];
+  const BLACK_POSITIONS = [
+    { after: 0, note: 'C#3' },
+    { after: 1, note: 'D#3' },
+    { after: 3, note: 'F#3' },
+    { after: 4, note: 'G#3' },
+    { after: 5, note: 'A#3' },
+    { after: 7, note: 'C#4' },
+    { after: 8, note: 'D#4' },
+    { after: 10, note: 'F#4' },
+    { after: 11, note: 'G#4' },
+    { after: 12, note: 'A#4' },
+    { after: 14, note: 'C#5' },
+    { after: 15, note: 'D#5' },
+    { after: 17, note: 'F#5' },
+    { after: 18, note: 'G#5' },
+    { after: 19, note: 'A#5' }
+  ];
+
+  const WHITE_LABELS = {
+    C: 'C', D: 'D', E: 'E', F: 'F', G: 'G', A: 'A', B: 'B'
+  };
+
+  function buildKeys() {
+    WHITE_NOTES.forEach(function (note, i) {
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'white-key';
+      el.setAttribute('data-note', note);
+      el.setAttribute('aria-label', note);
+
+      const name = note.replace(/\d/, '');
+      const label = document.createElement('span');
+      label.className = 'key-label';
+      label.innerHTML = '<b>' + WHITE_LABELS[name] + '</b>';
+      const hint = document.createElement('i');
+      hint.textContent = WHITE_SHORTCUT[note] || '';
+      label.appendChild(hint);
+      el.appendChild(label);
+      whiteKeysEl.appendChild(el);
+      KEY_CACHE.set(note, el);
+    });
+
+    BLACK_POSITIONS.forEach(function (pos) {
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'black-key';
+      el.setAttribute('data-note', pos.note);
+      el.setAttribute('aria-label', pos.note);
+      el.style.left = 'calc(var(--slot) * ' + (pos.after + 1) + ' - var(--black-w) / 2)';
+
+      const hint = BLACK_SHORTCUT[pos.note];
+      if (hint) {
+        const label = document.createElement('span');
+        label.className = 'key-label';
+        label.textContent = hint;
+        el.appendChild(label);
+      }
+      blackKeysEl.appendChild(el);
+      KEY_CACHE.set(pos.note, el);
+    });
+  }
+
+  function noteToMidi(note) {
+    const m = note.match(/^([A-G]#?)(\d+)$/);
+    if (!m) return 60;
+    return (parseInt(m[2], 10) + 1) * 12 + NOTE_OFFSET[m[1]];
+  }
+
+  function freqOf(note) {
+    return 440 * Math.pow(2, (noteToMidi(note) - 69) / 12);
+  }
+
+  let audioCtx = null;
+  let masterGain = null;
+
+  function ensureAudio() {
+    if (!audioCtx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AC();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.value = parseFloat(volumeInput.value);
+      const comp = audioCtx.createDynamicsCompressor();
+      comp.threshold.value = -18;
+      comp.knee.value = 24;
+      comp.ratio.value = 5;
+      comp.attack.value = 0.004;
+      comp.release.value = 0.22;
+      masterGain.connect(comp);
+      comp.connect(audioCtx.destination);
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  function unlockAudioOnGesture() {
+    const ctx = ensureAudio();
+    if (ctx.state === 'suspended') {
+      const p = ctx.resume();
+      if (p && typeof p.catch === 'function') p.catch(function () {});
+    }
+  }
+
+  document.addEventListener('pointerdown', unlockAudioOnGesture, { once: true, capture: true });
+  document.addEventListener('keydown', unlockAudioOnGesture, { once: true, capture: true });
+
+  function makeTone(note, startAt, duration, velocity, releaseNow) {
+    const ctx = audioCtx;
+    const f = freqOf(note);
+    const gain = ctx.createGain();
+    const oscA = ctx.createOscillator();
+    const oscB = ctx.createOscillator();
+    const gainB = ctx.createGain();
+
+    oscA.type = 'triangle';
+    oscA.frequency.value = f;
+    oscB.type = 'sine';
+    oscB.frequency.value = f * 2;
+    gainB.gain.value = 0.22;
+
+    oscA.connect(gain);
+    oscB.connect(gainB);
+    gainB.connect(gain);
+    gain.connect(masterGain);
+
+    oscA.start(startAt);
+    oscB.start(startAt);
+    gain.gain.setValueAtTime(0.0001, startAt);
+    gain.gain.linearRampToValueAtTime(velocity, startAt + 0.012);
+    if (releaseNow) {
+      const t = Math.max(ctx.currentTime + 0.015, startAt + 0.04);
+      gain.gain.setTargetAtTime(0.0001, t, 0.055);
+      oscA.stop(t + 0.5);
+      oscB.stop(t + 0.5);
+    } else {
+      const hold = Math.max(duration || 0.9, 0.9);
+      const envEnd = startAt + hold;
+      gain.gain.setValueAtTime(velocity, envEnd - 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0001, envEnd + 0.6);
+      oscA.stop(envEnd + 0.7);
+      oscB.stop(envEnd + 0.7);
+    }
+    return { gain: gain, oscA: oscA, oscB: oscB };
+  }
+
+  const manualCount = new Map();
+  const manualVoices = new Map();
+
+  function pressNote(note) {
+    if (isAutoPlaying) stopAuto();
+    const ctx = ensureAudio();
+    const count = (manualCount.get(note) || 0) + 1;
+    manualCount.set(note, count);
+    if (count === 1) {
+      const voice = makeTone(note, ctx.currentTime + 0.02, 3, 0.62, false);
+      // A held note fades only after the player releases it.
+      voice.holdTimer = setTimeout(function () {
+        releaseNote(note);
+      }, 3600);
+      manualVoices.set(note, voice);
+    }
+    const key = KEY_CACHE.get(note);
+    if (key) key.classList.add('pressed');
+    spawnBurst(note, true);
+    setStatus('手动弹奏', true);
+  }
+
+  function releaseNote(note) {
+    if (!manualCount.has(note)) return;
+    const count = manualCount.get(note);
+    if (count <= 1) {
+      manualCount.delete(note);
+      const voice = manualVoices.get(note);
+      if (voice) {
+        if (voice.holdTimer) clearTimeout(voice.holdTimer);
+        releaseVoice(voice);
+        manualVoices.delete(note);
+      }
+      const key = KEY_CACHE.get(note);
+      if (key) key.classList.remove('pressed');
+    } else {
+      manualCount.set(note, count - 1);
+    }
+  }
+
+  function releaseVoice(voice) {
+    try {
+      const now = audioCtx.currentTime;
+      const g = voice.gain.gain;
+      g.cancelScheduledValues(now);
+      g.setValueAtTime(Math.max(g.value, 0.0001), now);
+      g.exponentialRampToValueAtTime(0.0001, now + 0.19);
+      voice.oscA.stop(now + 0.28);
+      voice.oscB.stop(now + 0.28);
+    } catch (e) {
+      try { voice.oscA.stop(); voice.oscB.stop(); } catch (e2) {}
+    }
+  }
+
+  function bindPointer() {
+    function down(e) {
+      e.preventDefault();
+      const key = e.currentTarget;
+      const note = key.getAttribute('data-note');
+      if (!note) return;
+      if (e.pointerId !== undefined) {
+        key.setPointerCapture(e.pointerId);
+        key.__pointer = e.pointerId;
+      }
+      pressNote(note);
+    }
+
+    function up(e) {
+      const key = e.currentTarget;
+      const note = key.getAttribute('data-note');
+      if (note && (e.pointerId === undefined || e.pointerId === key.__pointer)) releaseNote(note);
+      if (key.__pointer !== undefined) delete key.__pointer;
+    }
+
+    document.querySelectorAll('.white-key, .black-key').forEach(function (key) {
+      key.addEventListener('pointerdown', down);
+      key.addEventListener('pointerup', up);
+      key.addEventListener('pointercancel', up);
+      key.addEventListener('pointerleave', up);
+      key.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    });
+  }
+
+  let autoSession = 0;
+  let autoTimer = null;
+  let autoEndTimer = null;
+  let autoWallStart = 0;
+  let autoTotalBeats = 64;
+  let autoNextIndex = 0;
+  let autoActiveSet = new Set();
+  let currentTrack = null;
+  let isAutoPlaying = false;
+
+  const SECTIONS = [
+    { at: 0, name: '前奏' },
+    { at: 16, name: '主歌' },
+    { at: 38, name: '副歌' },
+    { at: 68, name: '尾声' }
+  ];
+
+  function buildScore() {
+    const events = [];
+    function ev(t, notes, d, v, label) {
+      events.push({ t: Math.round(t * 100) / 100, n: [].concat(notes), d: d, v: v, label: label || '' });
+    }
+
+    const MELODY = [
+      // 前奏：原谱 7 1 | 5· 7 1· | 3 5 5 1 | 2 7 1 5·
+      { t: 0, n: 'B4', d: 0.6, v: .5, label: '前奏' },
+      { t: 0.6, n: 'C5', d: 0.6, v: .5 },
+      { t: 1.5, n: 'G4', d: 1.4, v: .54 },
+      { t: 2.9, n: 'B4', d: 1, v: .56 },
+      { t: 3.9, n: 'C5', d: 1.4, v: .6 },
+      { t: 5.6, n: 'E4', d: 0.9, v: .58 },
+      { t: 6.5, n: 'G4', d: 0.9, v: .58 },
+      { t: 7.4, n: 'G4', d: 0.9, v: .58 },
+      { t: 8.3, n: 'C5', d: 1.2, v: .64 },
+      { t: 10, n: 'D5', d: 0.7, v: .6 },
+      { t: 10.7, n: 'B4', d: 0.7, v: .58 },
+      { t: 11.4, n: 'C5', d: 1.3, v: .62 },
+      { t: 13, n: 'G4', d: 2, v: .56 },
+
+      // 主歌：7 6 5 5 5 2 1
+      { t: 16, n: 'B4', d: 0.6, v: .62, label: '主歌' },
+      { t: 16.6, n: 'A4', d: 0.6, v: .6 },
+      { t: 17.2, n: 'G4', d: 1, v: .64 },
+      { t: 18.2, n: 'G4', d: 1, v: .64 },
+      { t: 19.2, n: 'G4', d: 1, v: .64 },
+      { t: 20.2, n: 'D4', d: 0.7, v: .6 },
+      { t: 20.9, n: 'C4', d: 1.6, v: .6 },
+
+      // 6 3 2 | 3 5 1 | 2 2 7 6
+      { t: 22.5, n: 'A4', d: 0.6, v: .6 },
+      { t: 23.1, n: 'E4', d: 0.6, v: .58 },
+      { t: 23.7, n: 'D4', d: 1, v: .58 },
+      { t: 24.7, n: 'E4', d: 1, v: .6 },
+      { t: 25.7, n: 'G4', d: 1, v: .62 },
+      { t: 26.7, n: 'C5', d: 1, v: .66 },
+      { t: 27.7, n: 'D5', d: 0.6, v: .62 },
+      { t: 28.3, n: 'D5', d: 0.6, v: .62 },
+      { t: 28.9, n: 'B4', d: 1, v: .6 },
+      { t: 29.9, n: 'A4', d: 1.4, v: .6 },
+
+      // 3 4 3 3 2 3 6 | 1
+      { t: 31.3, n: 'E4', d: 0.6, v: .6 },
+      { t: 31.9, n: 'F4', d: 0.6, v: .6 },
+      { t: 32.5, n: 'E4', d: 0.6, v: .6 },
+      { t: 33.1, n: 'E4', d: 0.6, v: .6 },
+      { t: 33.7, n: 'D4', d: 0.6, v: .58 },
+      { t: 34.3, n: 'E4', d: 0.6, v: .6 },
+      { t: 34.9, n: 'A4', d: 1, v: .62 },
+      { t: 35.9, n: 'C5', d: 2, v: .66 },
+
+      // 副歌：1 3 2·1 | 2 3 4 2 1
+      { t: 38, n: 'C5', d: 0.9, v: .66, label: '副歌' },
+      { t: 38.9, n: 'E5', d: 0.8, v: .66 },
+      { t: 39.7, n: 'D5', d: 1.3, v: .64 },
+      { t: 41, n: 'C5', d: 0.7, v: .64 },
+      { t: 41.7, n: 'D5', d: 0.6, v: .62 },
+      { t: 42.3, n: 'E5', d: 0.6, v: .64 },
+      { t: 42.9, n: 'F5', d: 0.6, v: .64 },
+      { t: 43.5, n: 'D5', d: 0.7, v: .62 },
+      { t: 44.2, n: 'C5', d: 1.6, v: .64 },
+
+      // 1 2 1 2 1 2 2 1 2
+      { t: 46, n: 'C5', d: 0.6, v: .62 },
+      { t: 46.6, n: 'D5', d: 0.6, v: .62 },
+      { t: 47.2, n: 'C5', d: 0.6, v: .62 },
+      { t: 47.8, n: 'D5', d: 0.6, v: .62 },
+      { t: 48.4, n: 'C5', d: 0.6, v: .62 },
+      { t: 49, n: 'D5', d: 0.6, v: .62 },
+      { t: 49.6, n: 'D5', d: 0.6, v: .62 },
+      { t: 50.2, n: 'C5', d: 0.6, v: .62 },
+      { t: 50.8, n: 'D5', d: 1.4, v: .64 },
+
+      // 1 3 2·1 | 2 3 4 2 1（第二遍）
+      { t: 52.4, n: 'C5', d: 0.9, v: .66 },
+      { t: 53.3, n: 'E5', d: 0.8, v: .66 },
+      { t: 54.1, n: 'D5', d: 1.4, v: .64 },
+      { t: 55.5, n: 'C5', d: 0.7, v: .64 },
+      { t: 56.2, n: 'D5', d: 0.6, v: .62 },
+      { t: 56.8, n: 'E5', d: 0.6, v: .64 },
+      { t: 57.4, n: 'F5', d: 0.6, v: .64 },
+      { t: 58, n: 'D5', d: 0.7, v: .62 },
+      { t: 58.7, n: 'C5', d: 1.6, v: .64 },
+
+      // 03 3 3 3 2 2 1 2 1 2 1 3 3
+      { t: 60.3, n: 'E5', d: 0.6, v: .62 },
+      { t: 60.9, n: 'E5', d: 0.6, v: .62 },
+      { t: 61.5, n: 'E5', d: 0.6, v: .62 },
+      { t: 62.1, n: 'E5', d: 0.6, v: .62 },
+      { t: 62.7, n: 'D5', d: 0.6, v: .6 },
+      { t: 63.3, n: 'D5', d: 0.6, v: .6 },
+      { t: 63.9, n: 'C5', d: 0.6, v: .6 },
+      { t: 64.5, n: 'D5', d: 0.6, v: .6 },
+      { t: 65.1, n: 'C5', d: 0.6, v: .6 },
+      { t: 65.7, n: 'D5', d: 0.6, v: .6 },
+      { t: 66.3, n: 'C5', d: 0.6, v: .6 },
+      { t: 66.9, n: 'E5', d: 0.7, v: .64 },
+      { t: 67.6, n: 'E5', d: 0.7, v: .64 },
+
+      // 尾声：3· 6
+      { t: 68.3, n: 'E5', d: 1.4, v: .66, label: '尾声' },
+      { t: 70, n: 'A4', d: 2.4, v: .66 }
+    ];
+
+    MELODY.forEach(function (m) { ev(m.t, m.n, m.d, m.v, m.label); });
+
+    events.sort(function (a, b) { return a.t - b.t; });
+    autoTotalBeats = 74;
+    const finalBar = events[events.length - 1];
+    return { events: events, totalBeats: Math.max(autoTotalBeats, finalBar.t + finalBar.d) };
+  }
+
+  const recollectScore = buildScore();
+
+  function createTrackBuilder() {
+    const events = [];
+    return {
+      events: events,
+      ev: function (t, notes, d, v, label) {
+        events.push({ t: Math.round(t * 100) / 100, n: [].concat(notes), d: d, v: v, label: label || '' });
+      },
+      finish: function (totalBeats) {
+        events.sort(function (a, b) { return a.t - b.t; });
+        const last = events[events.length - 1];
+        return {
+          events: events,
+          totalBeats: Math.max(totalBeats || 0, last.t + last.d)
+        };
+      }
+    };
+  }
+
+  const CHORDS = {
+    C:    { bass: 'C3', tones: ['C4', 'E4', 'G4'] },
+    'C/E':{ bass: 'E3', tones: ['C4', 'E4', 'G4'] },
+    'G/B':{ bass: 'G3', tones: ['B3', 'D4', 'G4'] },
+    Am:   { bass: 'A3', tones: ['A3', 'C4', 'E4'] },
+    Em:   { bass: 'E3', tones: ['B3', 'E4', 'G4'] },
+    'Em/G':{ bass: 'G3', tones: ['E4', 'G4', 'B4'] },
+    F:    { bass: 'F3', tones: ['C4', 'F4', 'A4'] },
+    G:    { bass: 'G3', tones: ['B3', 'D4', 'G4'] },
+    Dm:   { bass: 'D3', tones: ['D4', 'F4', 'A4'] },
+    D:    { bass: 'D3', tones: ['D4', 'F#4', 'A4'] },
+    E:    { bass: 'E3', tones: ['G#3', 'B3', 'E4'] }
+  };
+
+  function chordAt(ev, bar, name) {
+    const a = CHORDS[name];
+    if (!a) return;
+    ev(bar, [a.bass], 0.9, 0.2);
+    ev(bar + 0.9, a.tones, 0.9, 0.15);
+    ev(bar + 2, [a.bass], 0.9, 0.18);
+    ev(bar + 2.9, a.tones, 0.9, 0.12);
+  }
+
+  function pushMelody(t, notes) {
+    notes.forEach(function (m) {
+      t.ev(m[0], m[1], m[2], m[3], m[4] || '');
+    });
+  }
+
+  function buildJingweiScore() {
+    const t = createTrackBuilder();
+    const sections = [
+      { at: 0, name: '前奏' },
+      { at: 8, name: '主歌' },
+      { at: 24, name: '中段' },
+      { at: 40, name: '后段' },
+      { at: 56, name: '副歌' },
+      { at: 84, name: '尾声' }
+    ];
+    [
+      ['Am', 0], ['F', 2], ['C', 4], ['G', 6],
+      ['Am', 8], ['F', 10], ['C', 12], ['G', 14],
+      ['F', 16], ['G', 18], ['Em', 20], ['Am', 22],
+      ['Am', 24], ['F', 26], ['C', 28], ['G', 30],
+      ['F', 32], ['G', 34], ['Am', 36], ['F', 38],
+      ['C', 40], ['G', 42], ['Am', 44], ['F', 46],
+      ['G', 48], ['Am', 50], ['F', 52], ['C', 54],
+      ['Am', 56], ['F', 58], ['C', 60], ['G', 62],
+      ['F', 64], ['G', 66], ['Em', 68], ['Am', 70],
+      ['F', 72], ['G', 74], ['Am', 76], ['F', 78],
+      ['G', 80], ['Am', 82], ['E', 84], ['Am', 86]
+    ].forEach(function (pair) { chordAt(t.ev, pair[1], pair[0]); });
+
+    const LEGACY_MELODY = [
+      [0, 'A3', 0.4, .28, '前奏'], [0.5, 'C4', 0.4, .38],
+      [1, 'A3', 0.4, .28], [1.5, 'C4', 0.4, .38],
+      [2, 'A3', 0.4, .28], [2.5, 'C4', 0.4, .38],
+      [3, 'A3', 0.4, .28], [3.5, 'C4', 0.4, .38],
+      [4, 'F3', 0.4, .28], [4.5, 'C4', 0.4, .38],
+      [5, 'F3', 0.4, .28], [5.5, 'C4', 0.4, .38],
+      [6, 'F3', 0.4, .28], [6.5, 'C4', 0.4, .38],
+      [7, 'F3', 0.4, .28], [7.5, 'C4', 0.4, .38],
+
+      [8, 'E4', 0.6, .6, '主歌'], [8.6, 'D4', 0.5, .56],
+      [9.1, 'C4', 0.6, .56], [9.7, 'B3', 0.7, .54],
+      [10.5, 'E4', 0.6, .6], [11.1, 'D4', 0.5, .56],
+      [11.6, 'C4', 0.5, .56], [12.1, 'D4', 0.7, .56],
+      [12.8, 'E4', 0.6, .6], [13.4, 'D4', 0.5, .56],
+      [13.9, 'C4', 0.9, .58], [15, 'A3', 0.6, .56],
+      [15.6, 'B3', 0.4, .54], [16, 'C4', 0.8, .58],
+
+      [16.8, 'A4', 0.6, .64], [17.4, 'G4', 0.5, .6],
+      [17.9, 'E4', 0.6, .6], [18.5, 'F4', 0.6, .6],
+      [19.1, 'E4', 0.5, .58], [19.6, 'D4', 0.6, .56],
+      [20.2, 'C4', 0.6, .56], [20.8, 'D4', 0.8, .58],
+      [21.6, 'C4', 0.8, .58], [22.5, 'A3', 0.6, .54],
+      [23.1, 'B3', 0.5, .54], [23.6, 'C4', 0.7, .56],
+
+      [24.3, 'A4', 0.6, .62], [24.9, 'G4', 0.5, .58],
+      [25.4, 'E4', 0.6, .58], [26, 'F4', 0.6, .58],
+      [26.6, 'E4', 0.5, .56], [27.1, 'D4', 0.6, .54],
+      [27.7, 'C4', 0.7, .54], [28.4, 'D4', 0.8, .56],
+      [29.2, 'C4', 0.6, .54], [29.8, 'B3', 0.5, .52],
+      [30.3, 'C4', 0.9, .56],
+
+      [31.5, 'A4', 0.5, .62, '铺垫'], [32, 'G4', 0.8, .64],
+      [32.8, 'E4', 0.6, .6], [33.4, 'F4', 0.8, .62],
+      [34.4, 'E4', 0.9, .62], [35.5, 'D4', 0.8, .58],
+      [36.3, 'C4', 0.7, .58], [37, 'D4', 1, .6],
+
+      [39, 'C4', 0.5, .6, '副歌'], [39.5, 'D4', 0.5, .62],
+      [40, 'E4', 0.9, .7], [41, 'F4', 0.7, .68],
+      [41.7, 'G4', 0.5, .66], [42.2, 'E4', 0.9, .66],
+      [43.2, 'D4', 0.7, .62], [43.9, 'E4', 0.9, .66],
+      [44.8, 'D4', 0.5, .6], [45.3, 'C4', 0.6, .6],
+      [45.9, 'D4', 0.7, .62], [46.6, 'C4', 1, .62],
+
+      [47.5, 'C4', 0.5, .6], [48, 'D4', 0.5, .62],
+      [48.5, 'E4', 0.9, .7], [49.5, 'F4', 0.7, .68],
+      [50.2, 'G4', 0.5, .66], [50.7, 'E4', 0.9, .66],
+      [51.7, 'D4', 0.7, .62], [52.4, 'E4', 0.9, .66],
+      [53.3, 'F4', 0.6, .64], [53.9, 'E4', 0.5, .62],
+      [54.4, 'D4', 0.5, .6], [54.9, 'C4', 0.9, .62],
+      [55.8, 'D4', 0.8, .62], [56.6, 'C4', 1.2, .64],
+
+      [58, 'G4', 0.6, .62, '间奏'], [58.6, 'F4', 0.5, .58],
+      [59.1, 'E4', 0.6, .6], [59.7, 'D4', 0.6, .56],
+      [60.3, 'C4', 0.5, .56], [60.8, 'D4', 0.5, .56],
+      [61.3, 'E4', 0.5, .58], [61.8, 'D4', 0.8, .58],
+      [62.6, 'C4', 0.8, .56], [63.4, 'D4', 0.6, .54],
+
+      [64, 'E4', 0.6, .6, '桥段'], [64.6, 'F4', 0.5, .6],
+      [65.1, 'E4', 0.7, .62], [65.8, 'D4', 0.6, .58],
+      [66.4, 'C4', 0.7, .58], [67.1, 'D4', 0.8, .6],
+      [68, 'A4', 0.6, .64], [68.6, 'C5', 0.5, .68],
+      [69.1, 'D5', 0.9, .72], [70, 'E5', 0.7, .76],
+      [70.7, 'F5', 0.5, .74], [71.2, 'E5', 0.9, .72],
+      [72.2, 'D5', 0.7, .68], [72.9, 'C5', 1.2, .68],
+
+      [74.5, 'C4', 0.5, .62, '副歌'], [75, 'D4', 0.5, .64],
+      [75.5, 'E4', 0.9, .72], [76.5, 'F4', 0.7, .7],
+      [77.2, 'G4', 0.5, .68], [77.7, 'E4', 0.9, .68],
+      [78.7, 'D4', 0.7, .64], [79.4, 'E4', 0.9, .68],
+      [80.3, 'D4', 0.5, .62], [80.8, 'C4', 0.6, .62],
+      [81.4, 'D4', 0.7, .64], [82.1, 'C4', 1, .64],
+
+      [83.5, 'C4', 0.5, .62, '尾声'], [84, 'D4', 0.5, .64],
+      [84.5, 'E4', 0.9, .72], [85.5, 'F4', 0.7, .7],
+      [86.2, 'G4', 0.5, .68], [86.7, 'E4', 0.9, .68],
+      [87.7, 'D4', 0.7, .64], [88.4, 'E4', 0.9, .68],
+      [89.3, 'D4', 0.5, .62], [89.8, 'C4', 0.6, .62],
+      [90.4, 'D4', 0.7, .64], [91.1, 'C4', 2, .66]
+    ];
+
+    function chorus(start, label) {
+      return [
+        [start, 'A4', 0.7, .64, label], [start + 0.7, 'A4', 0.7, .64],
+        [start + 1.4, 'E4', 0.7, .62], [start + 2.1, 'A4', 0.7, .64],
+        [start + 2.8, 'A4', 1.1, .64],
+        [start + 4, 'A4', 0.7, .64], [start + 4.7, 'B4', 0.7, .66],
+        [start + 5.4, 'A4', 0.7, .64], [start + 6.1, 'E4', 0.7, .62],
+        [start + 6.8, 'D4', 1.1, .6],
+        [start + 8, 'E4', 0.55, .6], [start + 8.55, 'D4', 0.55, .58],
+        [start + 9.1, 'E4', 0.55, .6], [start + 9.65, 'D4', 0.55, .58],
+        [start + 10.2, 'D4', 0.55, .58], [start + 10.75, 'C4', 0.55, .56],
+        [start + 11.3, 'D4', 0.55, .58], [start + 11.85, 'C4', 0.55, .56],
+        [start + 12.4, 'D4', 0.55, .58], [start + 12.95, 'E4', 1.2, .62],
+        [start + 14.5, 'A4', 0.7, .64], [start + 15.2, 'A4', 0.7, .64],
+        [start + 15.9, 'A4', 0.7, .64], [start + 17, 'A4', 1.5, .66]
+      ];
+    }
+
+    const M = { 1: 'C4', 2: 'D4', 3: 'E4', 4: 'F4', 5: 'G4', 6: 'A4', 7: 'B4' };
+    function line(start, steps, label, vel) {
+      let at = start;
+      steps.forEach(function (s) {
+        if (s[0]) {
+          t.ev(Math.round(at * 100) / 100, M[s[0]], s[1], vel, label || '');
+          label = '';
+        }
+        at += s[1];
+      });
+      return at;
+    }
+
+    // 前奏：0 3 5 5 5 6 / 5 6 1 5 6 5 5 / 6 5 3
+    line(0, [
+      [0, .5], [3, .5], [5, .5], [5, .5], [5, .5], [6, .5],
+      [5, .5], [6, .5], [1, .5], [5, .5], [6, .5], [5, .5], [5, .5],
+      [6, .5], [5, .5], [3, .5]
+    ], '前奏', .46);
+
+    // 主歌：我所有期待 / 所有的爱 / 为什么不明白
+    line(8, [
+      [1, .5], [6, .5], [6, .5], [2, .5], [3, 1], [2, 1]
+    ], '主歌', .55);
+    line(12, [
+      [1, .5], [6, .5], [6, .5], [6, .5], [2, .5], [3, 1], [2, .5], [0, .5]
+    ], '', .55);
+    line(16, [
+      [1, .5], [6, .5], [6, .5], [2, .5], [1, 1], [6, .5], [5, .5]
+    ], '', .56);
+    line(20, [
+      [6, .5], [6, .5], [6, .5], [2, .5], [3, 1], [2, 1]
+    ], '', .56);
+
+    // 中段：先谈养心殿 / 闲暇闻几页 / 臭读几篇书
+    line(24, [
+      [2, .5], [1, .5], [6, .5], [5, .5],
+      [1, .5], [6, .5], [6, .5], [6, .5], [2, .5], [3, .5], [2, .5],
+      [2, .5], [3, .5],
+      [1, .5], [3, .5], [5, .5], [6, .5], [5, .5], [3, .5],
+      [2, .5], [2, .5], [1, .5], [2, .5], [3, .5], [5, .5], [3, 1]
+    ], '中段', .54);
+
+    // 后段：春华是秋实模特 / 是她的对象 / 掩饰过的
+    line(40, [
+      [1, .5], [5, .5], [3, .5], [3, .5], [2, .5], [2, .5], [3, .5], [5, .5], [2, .5], [3, .5], [2, .5],
+      [6, .5], [1, .5], [6, .5], [5, .5], [5, .5], [6, .5], [1, .5], [2, .5], [3, .5], [2, .5],
+      [1, .5], [3, .5], [5, .5], [5, .5], [3, .5], [1, .5], [6, .5], [3, .5], [5, .5]
+    ], '后段', .56);
+
+    // 副歌：太想要份爱 / 我心中的海填满不回来
+    line(56, [
+      [1, .5], [6, .5], [1, .5], [2, .5], [3, .5], [2, .5],
+      [6, .5], [1, .5], [2, .5], [3, .5], [2, .5],
+      [0, .5], [2, .5], [1, .5], [2, .5], [1, .5], [2, .5], [1, .5], [2, .5],
+      [6, .5], [1, .5], [6, .5],
+      [0, .5], [3, .5], [2, .5], [1, .5], [0, .5], [1, .5], [2, .5], [3, .5], [2, 1]
+    ], '副歌', .6);
+
+    line(72, [
+      [3, .5], [5, .5], [6, .5], [5, .5], [5, .5], [3, .5], [5, .5], [3, .5],
+      [3, .5], [2, .5], [1, .5], [2, .5], [3, .5], [5, .5], [3, 1],
+      [6, .5], [5, .5], [5, .5], [3, .5], [5, .5], [3, .5]
+    ], '', .6);
+
+    // 尾声：它到底用什么去对待
+    line(84, [
+      [1, .5], [5, .5], [3, .5], [1, .5], [6, .5], [5, .5],
+      [3, .5], [2, .5], [1, .5], [2, .5], [3, .5], [5, .5], [3, .5], [2, .5], [1, 1.5]
+    ], '尾声', .54);
+
+    const f = t.finish(96);
+    return { title: '精卫', artist: '30年前，50年后', subtitle: '30年前，50年后 · 原谱简谱改编 · 110 BPM', bpm: 110, gain: 0.88, sections: sections, events: f.events, totalBeats: f.totalBeats };
+  }
+
+  function buildQinghuaciScore() {
+    const t = createTrackBuilder();
+    const sections = [
+      { at: 0, name: '前奏' },
+      { at: 8, name: '主歌' },
+      { at: 24, name: '副歌' },
+      { at: 45, name: '副歌' },
+      { at: 70, name: '尾声' }
+    ];
+    [
+      ['C', 0], ['G', 2], ['Am', 4], ['Em', 6],
+      ['F', 8], ['C', 10], ['F', 12], ['G', 14],
+      ['C', 16], ['G', 18], ['Am', 20], ['Em', 22],
+      ['F', 24], ['C', 26], ['F', 28], ['G', 30],
+      ['Am', 31], ['F', 33], ['C', 35], ['G', 37],
+      ['Am', 39], ['F', 41], ['C', 43], ['G', 45],
+      ['Am', 47], ['F', 49], ['C', 51], ['G', 53],
+      ['C', 54], ['G', 56], ['Am', 58], ['Em', 60],
+      ['F', 62], ['G', 64], ['Em', 66], ['Am', 68],
+      ['F', 70], ['G', 72], ['C', 74], ['Am', 76],
+      ['F', 78], ['G', 80], ['C', 82], ['C', 84]
+    ].forEach(function (pair) { chordAt(t.ev, pair[1], pair[0]); });
+
+    const LEGACY_MELODY = [
+      [0, 'G4', 0.5, .56, '前奏'], [0.5, 'E4', 0.5, .54],
+      [1, 'A4', 0.5, .58], [1.5, 'C5', 0.5, .62],
+      [2, 'D5', 0.5, .64], [2.5, 'E5', 0.5, .66],
+      [3, 'D5', 0.5, .62], [3.5, 'C5', 0.5, .6],
+      [4, 'A4', 0.5, .58], [4.5, 'G4', 0.5, .56],
+      [5, 'E4', 0.5, .54], [5.5, 'G4', 0.5, .54],
+      [6, 'A4', 0.5, .56], [6.5, 'C5', 0.5, .58],
+      [7, 'D5', 0.6, .6], [7.5, 'G4', 0.5, .56],
+
+      [8, 'E5', 0.5, .62, '主歌'], [8.5, 'D5', 0.5, .6],
+      [9, 'E5', 0.5, .62], [9.5, 'G5', 0.7, .68],
+      [10.2, 'A5', 0.5, .7], [10.7, 'G5', 0.5, .66],
+      [11.2, 'E5', 0.7, .64], [12, 'D5', 0.5, .6],
+      [12.5, 'E5', 0.5, .62], [13, 'G5', 0.5, .66],
+      [13.5, 'D5', 0.6, .62], [14.1, 'E5', 0.5, .62],
+      [14.6, 'C5', 0.9, .62], [15.5, 'A4', 0.5, .58],
+      [16, 'G4', 0.5, .56], [16.5, 'A4', 0.5, .58],
+      [17, 'C5', 0.5, .6], [17.5, 'D5', 0.6, .64],
+      [18.1, 'C5', 0.5, .6], [18.6, 'A4', 0.5, .58],
+      [19.1, 'G4', 0.8, .58], [20, 'D5', 0.5, .62],
+      [20.5, 'E5', 0.5, .64], [21, 'D5', 0.5, .62],
+      [21.5, 'C5', 0.6, .6], [22.1, 'A4', 0.5, .58],
+      [22.6, 'G4', 0.5, .56], [23.1, 'E4', 0.6, .54],
+      [23.7, 'G4', 0.6, .56], [24.3, 'A4', 0.6, .58],
+      [24.9, 'C5', 0.6, .62], [25.5, 'D5', 0.6, .64],
+      [26.1, 'C5', 0.6, .62], [26.7, 'A4', 0.5, .58],
+      [27.2, 'G4', 0.6, .58], [27.8, 'A4', 0.6, .6],
+      [28.4, 'C5', 0.6, .64], [29, 'D5', 0.6, .66],
+      [29.6, 'D5', 0.8, .68], [30.5, 'E4', 0.5, .6],
+      [31, 'G4', 0.5, .64, '副歌'], [31.5, 'A4', 0.7, .7],
+      [32.2, 'C5', 0.8, .74], [33, 'A4', 0.5, .66],
+      [33.5, 'G4', 0.7, .64], [34.2, 'E4', 0.9, .62],
+      [35.1, 'D4', 0.5, .6], [35.6, 'E4', 0.6, .62],
+      [36.2, 'G4', 0.5, .64], [36.7, 'A4', 0.7, .68],
+      [37.4, 'C5', 0.9, .72], [38.3, 'A4', 0.5, .64],
+      [38.8, 'G4', 0.7, .62], [39.5, 'E4', 0.9, .62],
+      [40.4, 'D5', 0.5, .68, '副歌2'], [40.9, 'E5', 0.6, .7],
+      [41.5, 'A4', 0.5, .64], [42, 'G4', 0.6, .62],
+      [42.6, 'E4', 0.7, .6], [43.3, 'D4', 0.5, .58],
+      [43.8, 'E4', 0.6, .6], [44.4, 'G4', 0.6, .62],
+      [45, 'A4', 0.8, .66], [45.8, 'C5', 0.8, .7],
+      [46.6, 'A4', 0.5, .62], [47.1, 'G4', 0.7, .6],
+      [47.8, 'E4', 0.8, .6], [48.6, 'D5', 0.5, .66],
+      [49.1, 'E5', 0.7, .7], [49.8, 'D5', 0.5, .64],
+      [50.3, 'C5', 0.5, .62], [50.8, 'A4', 0.6, .6],
+      [51.4, 'G4', 0.6, .58], [52, 'D4', 0.5, .56],
+      [52.5, 'E4', 0.6, .58], [53.1, 'G4', 0.7, .62],
+      [53.8, 'A4', 0.8, .64],
+      [54.5, 'G4', 0.5, .58, '间奏'], [55, 'E4', 0.5, .56],
+      [55.5, 'A4', 0.5, .6], [56, 'C5', 0.5, .62],
+      [56.5, 'D5', 0.5, .64], [57, 'E5', 1, .68],
+      [58, 'D5', 0.5, .6], [58.5, 'C5', 0.5, .58],
+      [59, 'A4', 0.5, .56], [59.5, 'G4', 0.5, .54],
+      [60, 'E4', 0.5, .52], [60.5, 'G4', 0.5, .54],
+      [61, 'A4', 0.6, .56], [61.6, 'E4', 0.5, .58],
+      [62, 'G4', 0.5, .62, '副歌3'], [62.5, 'A4', 0.7, .68],
+      [63.2, 'C5', 0.8, .72], [64, 'A4', 0.5, .64],
+      [64.5, 'G4', 0.7, .62], [65.2, 'E4', 0.9, .6],
+      [66.1, 'D4', 0.5, .58], [66.6, 'E4', 0.6, .6],
+      [67.2, 'G4', 0.5, .62], [67.7, 'A4', 0.7, .66],
+      [68.4, 'C5', 0.9, .72], [69.3, 'A4', 0.5, .62],
+      [69.8, 'G4', 0.7, .6], [70.5, 'E4', 0.9, .6],
+      [71.4, 'G4', 0.5, .6], [71.9, 'A4', 0.6, .64],
+      [72.5, 'B4', 0.5, .66], [73, 'A4', 0.7, .68],
+      [73.7, 'G4', 0.6, .64], [74.3, 'E4', 0.5, .6],
+      [74.8, 'D4', 0.5, .58], [75.3, 'E4', 0.6, .6],
+      [75.9, 'D4', 0.5, .58], [76.4, 'C5', 0.8, .68],
+      [77.2, 'A4', 0.5, .62], [77.7, 'G4', 0.6, .6],
+      [78.3, 'E4', 0.9, .6], [79.2, 'D5', 0.5, .64],
+      [79.7, 'E5', 0.7, .68], [80.4, 'D5', 0.5, .62],
+      [80.9, 'C5', 0.5, .6], [81.4, 'A4', 0.6, .6],
+      [82, 'G4', 0.7, .64, '尾声'], [82.7, 'A4', 0.6, .66],
+      [83.3, 'C5', 0.7, .7], [84, 'G4', 0.7, .62],
+      [84.7, 'E4', 0.7, .6], [85.4, 'G4', 0.6, .6],
+      [86, 'C6', 1.8, .8]
+    ];
+    const MELODY = [
+      // 前奏：原谱 5 6 5 3 2 3 | 6 5 | 2 1 6 1 2 6
+      [0, 'G4', 0.55, .5, '前奏'], [0.55, 'A4', 0.55, .5],
+      [1.1, 'G4', 0.55, .5], [1.65, 'E4', 0.55, .5],
+      [2.2, 'D4', 0.55, .5], [2.75, 'E4', 0.7, .52],
+      [3.45, 'A4', 0.6, .54], [4.05, 'G4', 0.9, .54],
+      [4.95, 'D4', 0.55, .5], [5.5, 'C4', 0.55, .5],
+      [6.05, 'A4', 0.55, .5], [6.6, 'C4', 0.55, .5],
+      [7.15, 'D4', 0.55, .5], [7.7, 'A4', 1.2, .54],
+
+      // 主歌：5 3 3 2 1 2 1 6
+      [8, 'G4', 0.7, .6, '主歌'], [8.7, 'E4', 0.7, .58],
+      [9.4, 'E4', 0.7, .58], [10.1, 'D4', 0.7, .56],
+      [10.8, 'C4', 0.7, .56], [11.5, 'D4', 0.7, .56],
+      [12.2, 'C4', 0.7, .56], [12.9, 'A3', 1.3, .54],
+      [14.4, 'E4', 0.7, .58], [15.1, 'E4', 0.7, .58],
+      [15.8, 'D4', 0.7, .56], [16.5, 'E4', 0.7, .58],
+      [17.2, 'E4', 0.7, .58], [17.9, 'D4', 0.7, .56],
+      [18.6, 'D4', 0.7, .56], [19.3, 'E4', 0.7, .58],
+      [20, 'G4', 0.7, .6], [20.7, 'E4', 0.7, .58],
+      [21.4, 'D4', 0.7, .56], [22.1, 'C4', 0.7, .56],
+      [22.8, 'A3', 0.8, .54], [23.6, 'G4', 0.8, .56],
+
+      // 副歌：天青色等烟雨
+      [24.5, 'D4', 0.65, .6, '副歌'], [25.15, 'E4', 0.65, .6],
+      [25.8, 'G4', 0.65, .62], [26.45, 'D4', 0.65, .6],
+      [27.1, 'E4', 0.8, .62], [28.1, 'C4', 0.55, .58],
+      [28.65, 'C4', 0.65, .58], [29.3, 'D4', 0.6, .6],
+      [29.9, 'E4', 0.6, .6], [30.5, 'G4', 0.6, .62],
+      [31.1, 'A4', 0.7, .64], [31.8, 'G4', 0.7, .62],
+      [32.5, 'E4', 1.1, .62],
+
+      // 炊烟袅袅升起隔江千万里
+      [34, 'G4', 0.7, .62], [34.7, 'E4', 0.7, .6],
+      [35.4, 'E4', 0.7, .6], [36.1, 'D4', 0.7, .58],
+      [36.8, 'C4', 0.7, .58], [37.5, 'D4', 0.7, .58],
+      [38.2, 'C4', 0.7, .58], [38.9, 'A3', 1.1, .56],
+      [40.1, 'C4', 0.7, .6], [40.8, 'D4', 0.7, .6],
+      [41.5, 'E4', 0.9, .62], [42.5, 'G4', 2.2, .66],
+
+      // 天青色等烟雨（第二遍）
+      [45.5, 'D4', 0.65, .62], [46.15, 'E4', 0.65, .62],
+      [46.8, 'G4', 0.65, .64], [47.45, 'D4', 0.65, .62],
+      [48.1, 'E4', 0.8, .64], [49.1, 'C4', 0.55, .6],
+      [49.65, 'C4', 0.65, .6], [50.3, 'D4', 0.6, .62],
+      [50.9, 'E4', 0.6, .62], [51.5, 'G4', 0.6, .64],
+      [52.1, 'A4', 0.7, .66], [52.8, 'G4', 0.7, .64],
+      [53.5, 'E4', 1.1, .64],
+
+      // 瓶底书汉隶 仿前朝的飘逸
+      [55, 'D4', 0.6, .62, '副歌'], [55.7, 'C4', 0.6, .6],
+      [56.3, 'D4', 0.6, .62], [56.9, 'C4', 0.6, .6],
+      [57.5, 'D4', 0.6, .62], [58.1, 'C4', 0.6, .6],
+      [58.7, 'D4', 0.7, .62],
+      [59.5, 'D4', 0.6, .62], [60.1, 'E4', 0.6, .62],
+      [60.7, 'G4', 0.7, .64], [61.4, 'E4', 0.7, .62],
+      [62.1, 'E4', 1.5, .62],
+      [63.6, 'G4', 0.7, .64], [64.3, 'G4', 0.7, .64],
+      [65, 'E4', 1, .62],
+      [66.1, 'D4', 0.65, .62], [66.75, 'E4', 0.65, .62],
+      [67.4, 'A4', 0.75, .66], [68.15, 'D4', 0.65, .62],
+      [68.8, 'E4', 1.1, .64],
+
+      // 月色被打捞起 晕开了结局
+      [70.3, 'G4', 0.65, .64, '尾声'], [70.95, 'G4', 0.65, .64],
+      [71.6, 'E4', 0.8, .62], [72.4, 'D4', 0.65, .64],
+      [73.05, 'E4', 0.65, .64], [73.7, 'G4', 0.75, .66],
+      [74.45, 'D4', 0.65, .64], [75.1, 'E4', 0.65, .64],
+      [75.75, 'G4', 2.8, .7]
+    ];
+    pushMelody(t, MELODY);
+    const f = t.finish(82);
+    return { title: '青花瓷', artist: '周杰伦', subtitle: '周杰伦 · 原谱主旋律改编 · 54 BPM', bpm: 54, gain: 0.8, sections: sections, events: f.events, totalBeats: f.totalBeats };
+  }
+
+  function buildJuewuScore() {
+    const t = createTrackBuilder();
+    const sections = [
+      { at: 0, name: '前奏' },
+      { at: 8, name: '主歌' },
+      { at: 24, name: '主歌' },
+      { at: 44, name: '副歌' },
+      { at: 60, name: '副歌' },
+      { at: 76, name: '间奏' },
+      { at: 92, name: '铺垫' },
+      { at: 108, name: '副歌' },
+      { at: 124, name: '尾声' }
+    ];
+
+    const LOW = { 1: 'G3', 2: 'A3', 3: 'B3', 4: 'C4', 5: 'D4', 6: 'E4', 7: 'F#3' };
+    const HIGH = { 1: 'G4', 2: 'A4', 3: 'B4', 4: 'C5', 5: 'D5', 6: 'E5', 7: 'F#4' };
+    const PROG = ['Em', 'C', 'G', 'D'];
+
+    for (let bar = 0; bar <= 136; bar += 4) {
+      chordAt(t.ev, bar, PROG[(bar / 4) % 4]);
+    }
+
+    function bar(start, seq, map, label, vel) {
+      let at = start;
+      seq.forEach(function (step) {
+        const note = step[0];
+        const dur = step[1];
+        if (note) {
+          t.ev(Math.round(at * 100) / 100, map[note], dur, vel, label || '');
+          label = '';
+        }
+        at += dur;
+      });
+      return at;
+    }
+
+    const b1 = [[1, .5], [1, .5], [1, 1], [7, 1], [1, 1]];
+    const b2 = [[4, .5], [4, .5], [4, 1], [3, 1], [2, 1]];
+    const b3 = [[6, .5], [6, .5], [5, .5], [6, .5], [6, .5], [5, .5], [3, .5], [2, .5]];
+    const b4 = [[3, .5], [3, .5], [2, .25], [2, .25], [3, .5], [2, .5], [2, .25], [2, .25], [1, .5], [5, .5]];
+    const c1 = [[6, .5], [6, .5], [5, .5], [6, .5], [6, .5], [5, .5], [3, .5], [2, .5]];
+    const c2 = [[3, .5], [3, .5], [2, .5], [2, .5], [3, .5], [1, .5], [1, .5], [7, .5]];
+    const c3 = [[6, .5], [6, .5], [5, .5], [6, .5], [6, .5], [5, .5], [3, .5], [2, .5], [1, 1]];
+    const c3v = [[6, .5], [6, .5], [5, .5], [6, .5], [3, .5], [2, .5], [3, .5], [2, .5], [5, 1]];
+
+    // 前奏：E 小调主和弦的轻声铺垫
+    bar(0, [[6, 1], [5, .5], [3, .5], [2, 1], [1, 1]], LOW, '前奏', .5);
+    bar(4, [[1, .5], [7, .5], [2, 1], [3, 1], [2, 1]], LOW, '', .5);
+
+    // 主歌：晚风来的太仓促 / 像你的心留不住……
+    bar(8, b1, LOW, '主歌', .58);
+    bar(12, b2, LOW, '', .58);
+    bar(16, b3, LOW, '', .6);
+    bar(20, b4, LOW, '', .58);
+    bar(24, [[6, .5], [7, .5], [0, .5], [1, .5], [1, .5], [7, .5], [1, 1]], LOW, '', .58);
+    bar(28, [[1, .5], [1, .5], [2, .5], [2, .5], [1, .5], [5, .5], [3, 1]], LOW, '', .58);
+    bar(32, [[6, .5], [7, .5], [0, 1], [1, .5], [1, .5], [1, 1]], LOW, '', .58);
+    bar(36, b3, LOW, '', .6);
+    bar(40, c2, LOW, '铺垫', .6);
+
+    // 副歌：我是配角怎敢吃醋 / 我是过客早有觉悟
+    bar(44, c1, HIGH, '副歌', .66);
+    bar(48, c2, HIGH, '', .64);
+    bar(52, c3, HIGH, '', .66);
+    bar(57, [[3, 3]], HIGH, '', .66);
+    bar(60, c1, HIGH, '副歌', .66);
+    bar(64, c2, HIGH, '', .64);
+    bar(68, c3v, HIGH, '', .66);
+    bar(73, [[6, 3]], HIGH, '', .68);
+
+    // 间奏与尾声的连接段
+    bar(76, [[6, .5], [6, .5], [6, .5], [6, .5], [5, .5], [3, .5], [2, 1]], LOW, '间奏', .6);
+    bar(80, [[3, .5], [2, .5], [1, .5], [1, 1], [6, 1.5]], LOW, '', .58);
+    bar(84, [[6, .5], [6, .5], [6, .5], [6, .5], [5, .5], [2, 1.5]], LOW, '', .58);
+    bar(88, [[3, .5], [1, .5], [7, 1], [6, 2]], LOW, '', .56);
+
+    // 第二次主歌 + 副歌
+    bar(92, b1, LOW, '铺垫', .58);
+    bar(96, b2, LOW, '', .58);
+    bar(100, b3, LOW, '', .6);
+    bar(104, b4, LOW, '', .58);
+    bar(108, c1, HIGH, '副歌', .66);
+    bar(112, c2, HIGH, '', .64);
+    bar(116, c3v, HIGH, '', .66);
+    bar(121, [[6, 3]], HIGH, '', .68);
+
+    // 尾声：原谱结尾的加花副歌段
+    bar(124, [
+      [6, .75], [6, .25], [6, .5], [6, .5], [5, .5], [3, .5], [2, .5],
+      [3, .75], [2, .25], [1, .5], [1, .5], [1, 1],
+      [6, .75], [6, .25], [6, .5], [6, .5], [5, .5], [2, .5],
+      [3, 1.5], [1, .5], [7, .5]
+    ], HIGH, '尾声', .58);
+    bar(136, [
+      [6, .75], [6, .25], [6, .5], [6, .5], [5, .5], [3, .5], [2, .5],
+      [3, .75], [3, .25], [3, .5], [5, .5], [1, .5],
+      [0, .5], [6, .75], [6, .25], [6, .5], [3, .5], [2, .5],
+      [5, 1], [6, 2]
+    ], '', .58);
+    t.ev(149, ['B3', 'E4', 'G4'], 3, .15);
+
+    const f = t.finish(152);
+    return { title: '觉悟', artist: '王小帅', subtitle: '王小帅 · 原曲数字旋律 · E小调戏腔版', bpm: 83, gain: 0.82, sections: sections, events: f.events, totalBeats: f.totalBeats };
+  }
+
+  const TRACKS = {
+    recollect: { title: '把回忆拼好给你', artist: '王贰浪', subtitle: '王贰浪 · 原琴数字谱改编 · C大调', bpm: 80, gain: 0.84, sections: SECTIONS, events: recollectScore.events, totalBeats: recollectScore.totalBeats },
+    jingwei: buildJingweiScore(),
+    qinghuaci: buildQinghuaciScore(),
+    juewu: buildJuewuScore()
+  };
+  currentTrack = TRACKS.recollect;
+  let beatSec = 60 / currentTrack.bpm;
+  let totalSec = currentTrack.totalBeats * beatSec;
+
+  function sectionFor(beat) {
+    let name = '前奏';
+    if (currentTrack) {
+      currentTrack.sections.forEach(function (s) { if (beat >= s.at) name = s.name; });
+    }
+    return name;
+  }
+
+  function spawnDrop(ev) {
+    const keys = ev.n.map(function (n) { return KEY_CACHE.get(n); }).filter(Boolean);
+    keys.forEach(function (key) {
+      const rect = key.getBoundingClientRect();
+      const pianoRect = piano.getBoundingClientRect();
+      const left = rect.left - pianoRect.left + (pianoViewport ? pianoViewport.scrollLeft : 0);
+      const width = rect.width;
+      const el = document.createElement('span');
+      el.className = 'note-drop';
+      el.style.left = left + 'px';
+      el.style.width = Math.max(width - 2, 13) + 'px';
+      dropLayer.appendChild(el);
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 470);
+    });
+  }
+
+  function spawnBurst(note, big) {
+    const key = KEY_CACHE.get(note);
+    if (!key) return;
+    const keyRect = key.getBoundingClientRect();
+    const pianoRect = piano.getBoundingClientRect();
+    const x = keyRect.left - pianoRect.left + (pianoViewport ? pianoViewport.scrollLeft : 0) + keyRect.width / 2;
+    const y = keyRect.top - pianoRect.top + (key.classList.contains('black-key') ? keyRect.height * 0.45 : keyRect.height * 0.55);
+
+    const ring = document.createElement('span');
+    ring.className = big ? 'fx-ring fx-ring-big' : 'fx-ring';
+    ring.style.left = x + 'px';
+    ring.style.top = y + 'px';
+    fxLayer.appendChild(ring);
+    window.setTimeout(function () { ring.remove(); }, 700);
+
+    const glyphs = ['\u266a', '\u266b', '\u2726', '\u2669'];
+    const count = big ? 5 : 3;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('span');
+      p.className = big ? 'fx-particle fx-particle-big' : 'fx-particle';
+      p.style.left = x + 'px';
+      p.style.top = y + 'px';
+      p.textContent = glyphs[(i + Math.floor(Math.random() * glyphs.length)) % glyphs.length];
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.7;
+      const dist = (big ? 30 : 20) + Math.random() * (big ? 42 : 28);
+      p.style.setProperty('--dx', (Math.cos(angle) * dist).toFixed(1) + 'px');
+      p.style.setProperty('--dy', (Math.sin(angle) * dist).toFixed(1) + 'px');
+      p.style.animationDelay = (Math.random() * 0.06).toFixed(2) + 's';
+      fxLayer.appendChild(p);
+      window.setTimeout(function () { p.remove(); }, 780);
+    }
+  }
+
+  function scheduleEvent(ev, delay, session) {
+    if (ev.label) {
+      setTimeout(function () {
+        if (session !== autoSession) return;
+        setSection(ev.label);
+      }, Math.max(0, delay) * 1000);
+    }
+    setTimeout(function () {
+      if (session !== autoSession) return;
+      const ctx = ensureAudio();
+      const vel = Math.max(0.12, ev.v * (currentTrack.gain || 1));
+      ev.n.forEach(function (note) {
+        makeTone(note, ctx.currentTime + 0.025, ev.d * beatSec + 0.25, vel, false);
+        const key = KEY_CACHE.get(note);
+        if (key) {
+          key.classList.add('auto-playing');
+          autoActiveSet.add(key);
+          spawnBurst(note, ev.n.length === 1 || ev.v > 0.5);
+          setTimeout(function () {
+            key.classList.remove('auto-playing');
+            autoActiveSet.delete(key);
+          }, ev.d * beatSec * 1000 + 130);
+        }
+      });
+      spawnDrop(ev);
+    }, Math.max(0, delay) * 1000 + 20);
+  }
+
+  function startAuto() {
+    stopAuto();
+    ensureAudio();
+    dropLayer.innerHTML = '';
+    fxLayer.innerHTML = '';
+    autoSession += 1;
+    const session = autoSession;
+    isAutoPlaying = true;
+    autoWallStart = performance.now();
+    autoNextIndex = 0;
+
+    autoBtn.setAttribute('aria-pressed', 'true');
+    autoBtn.disabled = true;
+    autoBtn.innerHTML = '<span class="ico">♪</span><span>自动弹奏中</span>';
+    stopBtn.hidden = false;
+    progressFill.style.width = '0%';
+    timeLabel.textContent = '00:00 / ' + formatTime(totalSec);
+    setSection(currentTrack.sections[0].name);
+    setStatus('自动弹奏中', true);
+
+    autoTimer = setInterval(function () {
+      if (session !== autoSession) return;
+      const elapsed = (performance.now() - autoWallStart) / 1000;
+      const beat = elapsed / beatSec;
+      const events = currentTrack.events;
+      let ev = events[autoNextIndex];
+      while (ev && ev.t * beatSec <= elapsed + 0.18) {
+        const delay = Math.max(0, ev.t * beatSec - elapsed);
+        scheduleEvent(ev, delay, session);
+        autoNextIndex += 1;
+        ev = events[autoNextIndex];
+      }
+
+      const pct = Math.min(100, (beat / currentTrack.totalBeats) * 100);
+      progressFill.style.width = pct + '%';
+      timeLabel.textContent = formatTime(Math.min(elapsed, totalSec)) + ' / ' + formatTime(totalSec);
+
+      if (autoNextIndex >= events.length || beat >= currentTrack.totalBeats) {
+        finishAuto(session);
+      }
+    }, 50);
+
+    autoEndTimer = setTimeout(function () { finishAuto(session); }, totalSec * 1000 + 700);
+  }
+
+  function finishAuto(session) {
+    if (session !== autoSession) return;
+    if (autoTimer) clearInterval(autoTimer);
+    if (autoEndTimer) clearTimeout(autoEndTimer);
+    autoTimer = null;
+    autoEndTimer = null;
+    autoSession += 1;
+    isAutoPlaying = false;
+    autoActiveSet.forEach(function (key) { key.classList.remove('auto-playing'); });
+    autoActiveSet.clear();
+    dropLayer.innerHTML = '';
+    fxLayer.innerHTML = '';
+    progressFill.style.width = '100%';
+    timeLabel.textContent = formatTime(totalSec) + ' / ' + formatTime(totalSec);
+    setSection('演奏结束');
+    autoBtn.disabled = false;
+    autoBtn.setAttribute('aria-pressed', 'false');
+    autoBtn.innerHTML = '<span class="ico">▶</span><span>自动弹奏</span>';
+    stopBtn.hidden = true;
+    setStatus('待命', false);
+  }
+
+  function stopAuto() {
+    if (!isAutoPlaying) {
+      autoSession += 1;
+      autoBtn.disabled = false;
+      stopBtn.hidden = true;
+      return;
+    }
+    autoSession += 1;
+    isAutoPlaying = false;
+    if (autoTimer) clearInterval(autoTimer);
+    if (autoEndTimer) clearTimeout(autoEndTimer);
+    autoTimer = null;
+    autoEndTimer = null;
+    autoActiveSet.forEach(function (key) { key.classList.remove('auto-playing'); });
+    autoActiveSet.clear();
+    dropLayer.innerHTML = '';
+    fxLayer.innerHTML = '';
+    autoBtn.disabled = false;
+    autoBtn.setAttribute('aria-pressed', 'false');
+    autoBtn.innerHTML = '<span class="ico">▶</span><span>自动弹奏</span>';
+    stopBtn.hidden = true;
+    setStatus('已停止', false);
+    const now = audioCtx ? audioCtx.currentTime : 0;
+    if (audioCtx) {
+      manualVoices.forEach(function (voice) { releaseVoice(voice); });
+      manualVoices.clear();
+      manualCount.clear();
+    }
+  }
+
+  function formatTime(sec) {
+    sec = Math.max(0, Math.floor(sec));
+    const m = String(Math.floor(sec / 60)).padStart(2, '0');
+    const s = String(sec % 60).padStart(2, '0');
+    return m + ':' + s;
+  }
+
+  function setSection(name) {
+    sectionLabel.textContent = name;
+  }
+
+  function setStatus(text, playing) {
+    statusText.textContent = text;
+    statusBadge.classList.toggle('playing', Boolean(playing));
+    statusBadge.classList.toggle('idle', !playing);
+  }
+
+  function selectTrack(id) {
+    const track = TRACKS[id];
+    if (!track) return;
+    if (isAutoPlaying) stopAuto();
+    currentTrack = track;
+    beatSec = 60 / track.bpm;
+    totalSec = track.totalBeats * beatSec;
+    dropLayer.innerHTML = '';
+    fxLayer.innerHTML = '';
+    autoActiveSet.forEach(function (key) { key.classList.remove('auto-playing'); });
+    autoActiveSet.clear();
+    progressFill.style.width = '0%';
+    timeLabel.textContent = '00:00 / ' + formatTime(totalSec);
+    brandTitle.textContent = track.title;
+    brandSub.textContent = track.artist + ' · C大调';
+    pieceTitle.textContent = track.title;
+    pieceSub.textContent = track.subtitle;
+    setSection(track.sections[0].name);
+    setStatus('待命', false);
+    document.title = track.title + ' · 钢琴';
+  }
+
+  volumeInput.addEventListener('input', function () {
+    if (masterGain) masterGain.gain.value = parseFloat(volumeInput.value);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.repeat) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const note = KEYBOARD[e.key.toLowerCase()];
+    if (!note) return;
+    e.preventDefault();
+    const tag = document.activeElement ? document.activeElement.tagName : '';
+    if (tag !== 'INPUT' && tag !== 'SELECT') pressNote(note);
+  });
+
+  document.addEventListener('keyup', function (e) {
+    const note = KEYBOARD[e.key.toLowerCase()];
+    if (!note) return;
+    e.preventDefault();
+    releaseNote(note);
+  });
+
+  window.addEventListener('blur', function () {
+    manualVoices.forEach(function (voice) { releaseVoice(voice); });
+    manualVoices.clear();
+    manualCount.clear();
+    document.querySelectorAll('.white-key.pressed, .black-key.pressed').forEach(function (key) {
+      key.classList.remove('pressed');
+    });
+  });
+
+  autoBtn.addEventListener('click', function () {
+    startAuto();
+  });
+
+  songSelect.addEventListener('change', function () {
+    selectTrack(songSelect.value);
+  });
+
+  stopBtn.addEventListener('click', function () {
+    stopAuto();
+    setStatus('已停止', false);
+    progressFill.style.width = '0%';
+    timeLabel.textContent = '00:00 / ' + formatTime(totalSec);
+  });
+
+  buildKeys();
+  bindPointer();
+  selectTrack('recollect');
+})();
+</script>
+</body>
+</html>
