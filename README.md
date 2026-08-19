@@ -17,21 +17,21 @@
 docker compose up -d --build
 ```
 
-访问 `http://localhost`。
+访问 `http://localhost:8084`。
 
 ### 方式二：直接构建运行
 
 ```bash
 docker build -t piano-site .
-docker run -d --name piano-site -p 80:80 --restart unless-stopped piano-site
+docker run -d --name piano-site -p 8084:80 --restart unless-stopped piano-site
 ```
 
-访问 `http://localhost`。
+访问 `http://localhost:8084`。
 
 ### 健康检查
 
 ```bash
-curl http://localhost/healthz
+curl http://localhost:8084/healthz
 ```
 
 返回 `ok` 表示服务正常。

@@ -4,5 +4,5 @@ services:
     image: piano-site:latest
     container_name: piano-site
     ports:
-      - "80:80"
+      - "8084:80"
     restart: unless-stopped
